@@ -1,0 +1,15 @@
+@import "../themes/default.css";
+@import "tailwindcss";
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-base);
+  font-size: var(--font-size-base);
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}

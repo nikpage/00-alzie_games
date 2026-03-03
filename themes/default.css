@@ -1,0 +1,49 @@
+:root {
+  /* Brand */
+  --color-primary: #4f46e5;
+  --color-primary-hover: #4338ca;
+  --color-primary-text: #ffffff;
+
+  /* Background */
+  --color-bg: #f9fafb;
+  --color-surface: #ffffff;
+  --color-surface-raised: #f3f4f6;
+
+  /* Text */
+  --color-text: #111827;
+  --color-text-muted: #6b7280;
+
+  /* Game tiles */
+  --color-tile-bg: #e0e7ff;
+  --color-tile-bg-hover: #c7d2fe;
+  --color-tile-active: #4f46e5;
+  --color-tile-active-text: #ffffff;
+  --color-tile-error: #fca5a5;
+  --color-tile-correct: #86efac;
+
+  /* Status */
+  --color-success: #16a34a;
+  --color-error: #dc2626;
+  --color-warning: #d97706;
+
+  /* Typography */
+  --font-base: 'Inter', system-ui, sans-serif;
+  --font-display: 'Inter', system-ui, sans-serif;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.25rem;
+  --font-size-xl: 1.5rem;
+  --font-size-2xl: 2rem;
+
+  /* Spacing / sizing */
+  --tile-size: clamp(80px, 28vw, 120px);
+  --tile-gap: 0.75rem;
+  --tile-radius: 1rem;
+  --tile-font-size: clamp(1.5rem, 8vw, 2.5rem);
+
+  /* Target symbol display */
+  --target-font-size: clamp(3rem, 15vw, 5rem);
+
+  /* Animation */
+  --transition-fast: 80ms ease;
+  --transition-normal: 150ms ease;
+}

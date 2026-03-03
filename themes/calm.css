@@ -1,0 +1,43 @@
+/* Calm theme – larger targets, softer palette, no harsh contrast */
+/* Designed for older adults / Alzie audience */
+:root {
+  --color-primary: #0284c7;
+  --color-primary-hover: #0369a1;
+  --color-primary-text: #ffffff;
+
+  --color-bg: #f0f9ff;
+  --color-surface: #ffffff;
+  --color-surface-raised: #e0f2fe;
+
+  --color-text: #0c4a6e;
+  --color-text-muted: #0369a1;
+
+  --color-tile-bg: #bae6fd;
+  --color-tile-bg-hover: #7dd3fc;
+  --color-tile-active: #0284c7;
+  --color-tile-active-text: #ffffff;
+  --color-tile-error: #fca5a5;
+  --color-tile-correct: #86efac;
+
+  --color-success: #15803d;
+  --color-error: #b91c1c;
+  --color-warning: #b45309;
+
+  --font-base: 'Inter', system-ui, sans-serif;
+  --font-display: 'Inter', system-ui, sans-serif;
+  --font-size-base: 1.125rem;
+  --font-size-lg: 1.375rem;
+  --font-size-xl: 1.75rem;
+  --font-size-2xl: 2.25rem;
+
+  /* Larger tiles for easier tapping */
+  --tile-size: clamp(90px, 30vw, 130px);
+  --tile-gap: 1rem;
+  --tile-radius: 1.25rem;
+  --tile-font-size: clamp(2rem, 9vw, 3rem);
+
+  --target-font-size: clamp(3.5rem, 18vw, 6rem);
+
+  --transition-fast: 100ms ease;
+  --transition-normal: 180ms ease;
+}

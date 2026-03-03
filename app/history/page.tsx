@@ -11,14 +11,10 @@ export default async function HistoryPage() {
 
   const { data: rounds } = await supabase
     .from('speed_tiles_rounds')
-    .select('round_id, round_start_ts, score, total_misses, mean_latency_ms')
+    .select('round_id, round_start_ts, score, total_misses, mean_latency_ms, latency_cv, latency_slope, meta_session_id, round_index_in_chain, break_duration_ms')
     .eq('user_id', user.id)
-    .order('round_start_ts', { ascending: false })
-    .limit(10)
+    .order('round_start_ts', { ascending: true })
+    .limit(90)
 
-  const bestScore = rounds?.length
-    ? Math.max(...rounds.map((r: { score: number }) => r.score))
-    : 0
-
-  return <HistoryClient rounds={rounds ?? []} bestScore={bestScore} />
+  return <HistoryClient rounds={rounds ?? []} />
 }

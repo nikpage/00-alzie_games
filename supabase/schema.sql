@@ -24,6 +24,7 @@ create table if not exists speed_tiles_rounds (
   latency_cv              real,
   latency_slope           real,
   -- versioning
+  game_id                 text not null default 'speed_tiles',
   game_version            text not null,
   scoring_version         text not null,
   analytics_version       text not null

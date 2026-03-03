@@ -67,6 +67,24 @@ export async function POST(request: Request) {
   return NextResponse.json({ ok: true }, { status: 201 })
 }
 
+// PATCH /api/round — update context tags on a completed round
+export async function PATCH(request: Request) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
+  const { round_id, context_tags }: { round_id: string; context_tags: string[] } = await request.json()
+
+  const { error } = await supabase
+    .from('speed_tiles_rounds')
+    .update({ context_tags })
+    .eq('round_id', round_id)
+    .eq('user_id', user.id)
+
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+  return NextResponse.json({ ok: true })
+}
+
 // GET /api/round — fetch round history for the current user
 export async function GET() {
   const supabase = await createClient()

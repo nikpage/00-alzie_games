@@ -27,7 +27,8 @@ create table if not exists speed_tiles_rounds (
   game_id                 text not null default 'speed_tiles',
   game_version            text not null,
   scoring_version         text not null,
-  analytics_version       text not null
+  analytics_version       text not null,
+  context_tags            text[]       -- user-reported round context, e.g. ['tired', 'green_tea']
 );
 
 create table if not exists speed_tiles_cycles (

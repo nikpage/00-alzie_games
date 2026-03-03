@@ -101,6 +101,7 @@ export default function PlayPage() {
       game_id: 'speed_tiles',
       game_version: GAME_VERSION,
       scoring_version: SCORING_VERSION,
+      context_tags: [],
       ...result,
       ...chain,
     }

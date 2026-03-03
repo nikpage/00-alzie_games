@@ -4,15 +4,51 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import type { RoundPayload } from '@/types'
 
+// Starter tag set — extensible, never an enum
+const TAGS: { id: string; label: string }[] = [
+  { id: 'tired',      label: 'Tired' },
+  { id: 'unwell',     label: 'Unwell' },
+  { id: 'not_me',     label: 'Not me' },
+  { id: 'good_sleep', label: 'Good sleep' },
+  { id: 'exercise',   label: 'Exercised' },
+  { id: 'stressed',   label: 'Stressed' },
+  { id: 'green_tea',  label: 'Green tea' },
+]
+
 export default function ResultsPage() {
   const router = useRouter()
   const [round, setRound] = useState<RoundPayload | null>(null)
+  const [selectedTags, setSelectedTags] = useState<string[]>([])
+  const [tagsSaved, setTagsSaved] = useState(false)
 
   useEffect(() => {
     const raw = sessionStorage.getItem('last_round')
     if (!raw) { router.replace('/play'); return }
     setRound(JSON.parse(raw))
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
+  function toggleTag(id: string) {
+    setSelectedTags(prev =>
+      prev.includes(id) ? prev.filter(t => t !== id) : [...prev, id]
+    )
+    setTagsSaved(false)
+  }
+
+  async function saveTags() {
+    if (!round) return
+    await fetch('/api/round', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ round_id: round.round_id, context_tags: selectedTags }),
+    })
+    setTagsSaved(true)
+  }
+
+  function navigate(path: string) {
+    // Save tags if any selected and not yet saved
+    if (selectedTags.length > 0 && !tagsSaved) saveTags()
+    router.push(path)
+  }
 
   if (!round) return null
 
@@ -33,10 +69,9 @@ export default function ResultsPage() {
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      justifyContent: 'center',
       padding: '2rem 1.5rem',
       background: 'var(--color-bg)',
-      gap: '2rem',
+      gap: '1.5rem',
       maxWidth: '480px',
       margin: '0 auto',
     }}>
@@ -51,6 +86,7 @@ export default function ResultsPage() {
         )}
       </div>
 
+      {/* Stats */}
       <div style={{
         background: 'var(--color-surface)',
         borderRadius: '1.25rem',
@@ -66,11 +102,51 @@ export default function ResultsPage() {
         {avgLatency && <Stat label="Avg response time" value={`${avgLatency}ms`} />}
       </div>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', width: '100%' }}>
-        <button onClick={() => router.push('/play')} style={primaryBtn}>
+      {/* Context tags */}
+      <div style={{ width: '100%' }}>
+        <p style={{
+          fontSize: 'var(--font-size-base)',
+          color: 'var(--color-text-muted)',
+          marginBottom: '0.75rem',
+        }}>
+          Anything to note about this round?
+        </p>
+        <div style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: '0.5rem',
+        }}>
+          {TAGS.map(tag => {
+            const active = selectedTags.includes(tag.id)
+            return (
+              <button
+                key={tag.id}
+                onClick={() => toggleTag(tag.id)}
+                style={{
+                  padding: '0.5rem 1rem',
+                  borderRadius: '999px',
+                  border: `2px solid ${active ? 'var(--color-primary)' : 'var(--color-surface-raised)'}`,
+                  background: active ? 'var(--color-primary)' : 'var(--color-surface)',
+                  color: active ? 'var(--color-primary-text)' : 'var(--color-text)',
+                  fontSize: 'var(--font-size-base)',
+                  fontWeight: active ? 600 : 400,
+                  cursor: 'pointer',
+                  transition: 'all var(--transition-fast)',
+                }}
+              >
+                {tag.label}
+              </button>
+            )
+          })}
+        </div>
+      </div>
+
+      {/* Actions */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', width: '100%', marginTop: 'auto' }}>
+        <button onClick={() => navigate('/play')} style={primaryBtn}>
           Play again
         </button>
-        <button onClick={() => router.push('/history')} style={ghostBtn}>
+        <button onClick={() => navigate('/history')} style={ghostBtn}>
           View history
         </button>
       </div>

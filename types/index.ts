@@ -28,6 +28,7 @@ export interface RoundPayload extends RoundResult {
   break_duration_ms: number | null
   game_version: string
   scoring_version: string
+  context_tags: string[]
 }
 
 // Row returned from speed_tiles_rounds
